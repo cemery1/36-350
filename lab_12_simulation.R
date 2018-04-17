@@ -20,16 +20,22 @@ run_simulation <- function(n_trials, n, p, cutoff) {
     data <- generate_data(n, p)
     result <- c(result, model_select(data$covariates, data$response, cutoff))
   }
-  hist(result)
-  return ()
+  write.csv(result, file = "sim.csv", quote = FALSE)
 }
 
-par(mfrow = c(3,3))
-for (n in c(100, 1000, 10000)) {
-  for (p in c(10, 20, 50)) {
-    run_simulation(100, n, p, 0.05)
-  }
+make_plot <- function(datapath) {
+  data <- read.csv(datapath)
+  hist(data)
 }
+
+# This will no longer work due to new function setup
+#
+# par(mfrow = c(3,3))
+# for (n in c(100, 1000, 10000)) {
+#   for (p in c(10, 20, 50)) {
+#     run_simulation(100, n, p, 0.05)
+#   }
+# }
 
 # It does not appear to be the case that the p-values are uniformly distributed
 # between 0 and 1 (probably because we filtered out every p-value that was 
